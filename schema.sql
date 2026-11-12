@@ -17,7 +17,7 @@ create table public.stories (
   subtitle text not null default '' check (char_length(subtitle) <= 240),
   excerpt text not null check (char_length(excerpt) between 2 and 350),
   body text not null check (char_length(body) >= 10),
-  category text not null default 'Story' check (char_length(category) between 1 and 50),
+  category text not null default 'Short Stories' check (category in ('Short Stories', 'Novellas')),
   cover_image text,
   published boolean not null default false,
   published_at timestamptz,

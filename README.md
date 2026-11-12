@@ -5,7 +5,7 @@ A responsive, personal-branded literary website where **you can draft and publis
 ## What's included
 
 - Editorial homepage opening with the latest story, followed by recent writing
-- Searchable story archive and category filters
+- Searchable story archive with exactly two filters: **Short Stories** and **Novellas**
 - Individual story pages, comfortable typography, estimated read times and sharing
 - Email-link reader accounts for likes and comments
 - One like per signed-in account per story, with unlike support
@@ -13,7 +13,7 @@ A responsive, personal-branded literary website where **you can draft and publis
 - Restricted writer dashboard to create, edit, publish, unpublish and delete stories
 - Live Markdown preview in the writer dashboard
 - Mobile-friendly design and accessible form labels
-- A clearly labeled, *non-live* preview with three example stories before Supabase is configured
+- A clearly labeled, *non-live* preview with three original fictional examples (two short stories and a novella excerpt) before Supabase is configured
 
 **Important:** The included example stories are fictional placeholder content, not your published work. When Supabase is connected, the placeholders disappear and only your database's published stories are displayed. The preview mode does not store real likes or comments.
 
@@ -79,7 +79,7 @@ values ('YOUR-USER-UUID-HERE');
 
 ## 6. Publish the first story
 
-Open `/admin.html`, choose **Write / Edit**, enter a title, excerpt, category and body. You can use Markdown: `## Heading`, `**bold**`, `*italic*`, `> quotation`, `- list item`. Select **Published** and save. The story appears instantly on the homepage and in the archive.
+Open `/admin.html`, choose **Write / Edit**, enter a title, excerpt, choose **Short Stories** or **Novellas**, and add the body. You can use Markdown: `## Heading`, `**bold**`, `*italic*`, `> quotation`, `- list item`. Select **Published** and save. The story appears instantly on the homepage and in the archive.
 
 To add a cover, supply a full `https://` image URL for an image that you own or are licensed to publish. Without it, an abstract cover displays. If you upload images to a public storage service, keep the relevant image files available.
 
@@ -129,3 +129,14 @@ GitHub Pages docs: https://docs.github.com/en/pages/getting-started-with-github-
 ## Future upgrades
 
 An author headshot, your own domain, an email newsletter, story series/chapters, reader profiles, comment replies, a rich-text editor, analytics and RSS. These are intentionally outside the current MVP.
+
+
+## Story categories
+
+The public archive intentionally offers **two filter buttons only**: **Short Stories** and **Novellas**. When the Stories page first opens, **Short Stories** is selected. Selecting **Novellas** shows just novellas; search applies within the selected category. The public homepage and archive show only these two categories. The writer dashboard uses a dropdown limited to these two choices.
+
+If you previously published items under *Reflections*, *Personal Essays*, or another category, **those records are not deleted**. They are hidden from public display until you edit their category in the writer dashboard. When editing a legacy story in the dashboard, select the correct new category before saving.
+
+If you already ran an earlier version of `schema.sql` in Supabase, **do not rerun the full schema**: just upload the updated frontend files, since the existing database allows the two new category values. For a brand-new Supabase project, use the included `schema.sql`.
+
+To update an existing GitHub Pages site, replace `app.js`, `admin.js`, `site-config.js`, `index.html`, and `preview.html`; the included `schema.sql` is for new database setups only. Existing Supabase configuration values in `site-config.js` should be preserved if you have already added them.

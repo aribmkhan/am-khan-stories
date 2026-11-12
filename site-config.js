@@ -3,7 +3,7 @@
 export const SITE = {
   name: 'A. M. Khan',
   shortName: 'A. M. Khan',
-  description: 'Stories, reflections, and moments worth putting into words, by A. M. Khan.',
+  description: 'Short stories and novellas by A. M. Khan.',
   supabaseUrl: '',
   supabaseAnonKey: ''
 };
