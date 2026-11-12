@@ -4,10 +4,40 @@ import { esc, prettyDate, readTime, storyUrl, renderMarkdown, coverUrl, fillBran
 
 // These are original, clearly labeled placeholder texts for the unconnected preview.
 // Once Supabase is connected, only stories published in your database are shown.
+const STORY_CATEGORIES = ['Short Stories', 'Novellas'];
+
 const PREVIEW_STORIES = [
-  { id:'preview-1',slug:'the-space-between',title:'The space between where we are and where we go',subtitle:'A small reflection on beginnings.',excerpt:'There is a particular kind of courage in not knowing exactly what comes next — and choosing to move anyway.',category:'Reflections',published_at:'2026-09-17T12:00:00Z',cover_image:null,body:`Some seasons of life arrive without a name. We are no longer who we used to be, but not quite the person we're becoming, either. We stand somewhere in the middle, holding a map that hasn't yet been drawn.\n\nFor a long time, I thought uncertainty was something to overcome. A question that needed an answer. A chapter that needed to end.\n\nBut lately I've wondered whether the in-between is a place worth inhabiting. Not forever, of course. Just long enough to notice the things we hurry past when we're desperate for a destination.\n\n## The quiet work of becoming\n\nMaybe there is no single moment when everything clicks into place. Maybe we gather our lives in little pieces: a conversation we needed, a brave decision we nearly avoided, an ordinary morning that suddenly feels different.\n\n> The next chapter doesn't need a perfect first sentence.\n\nIt just needs us to begin.\n\n*This is sample text for your website preview. Replace it with your own writing after setup.*` },
-  { id:'preview-2',slug:'letters-to-a-slow-sunday',title:'Letters to a slow Sunday',subtitle:'A few things I noticed when I stopped rushing.',excerpt:'On the mornings when nothing is expected of us, even the smallest details begin to feel like stories.',category:'Personal Essays',published_at:'2026-09-04T12:00:00Z',cover_image:null,body:`There was light coming through the kitchen window, and for once I wasn't in a hurry to be anywhere else. The kettle was beginning to hum. Somewhere outside, a bird was offering its opinion on the morning.\n\nIt struck me that I had spent so much time trying to make my days memorable that I had forgotten to pay attention to them.\n\n## Ordinary things\n\nA cup cooling on the table. The sound of a familiar song coming from another room. A conversation that doesn't need to lead anywhere.\n\nSometimes, that's enough.\n\n*This is sample text for your website preview. Replace it with your own writing after setup.*` },
-  { id:'preview-3',slug:'all-the-places-we-carry',title:'All the places we carry',subtitle:'A note on memory and home.',excerpt:'Some places stay with us long after we have left them — not as addresses, but as feelings.',category:'Short Stories',published_at:'2026-08-22T12:00:00Z',cover_image:null,body:`In my memory, the street is always just after the rain. The pavement shines, the houses glow amber at their windows, and every sound seems to travel a little farther.\n\nIt is probably not how the place really looked. Memory, I've learned, is less a photograph than a storyteller. It keeps what matters and quietly rearranges the rest.\n\nI can still find my way around that street without thinking. But what I miss most isn't the place. It's the version of myself who lived there.\n\n*This is sample text for your website preview. Replace it with your own writing after setup.*` }
+  { id:'preview-1',slug:'the-last-light-on-mercer-street',title:'The Last Light on Mercer Street',subtitle:'A short story about one strange evening.',excerpt:'When the entire street went dark, one window stayed lit—and nobody remembered who lived there.',category:'Short Stories',published_at:'2026-09-17T12:00:00Z',cover_image:null,body:`The power went out just after nine. First the lamps flickered, then every window on Mercer Street turned black. Except one. On the fourth floor of number twenty-six, a yellow light continued to burn.
+
+Elias had lived across the road for seven years. He knew the woman on the ground floor, the twins in the attic, and the man who walked a greyhound at dawn. But he could not recall anyone ever entering that fourth-floor apartment.
+
+At the window, a silhouette raised its hand.
+
+Elias raised his own before he thought better of it.
+
+*This is a fictional sample for the website preview, not a published work by A. M. Khan.*` },
+  { id:'preview-2',slug:'the-house-beyond-the-orchard',title:'The House Beyond the Orchard',subtitle:'An opening excerpt from a sample novella.',excerpt:'Eleven years after leaving home, Mara receives a letter that asks her to return to a house no one can find.',category:'Novellas',published_at:'2026-09-04T12:00:00Z',cover_image:null,body:`The envelope had no return address. Inside was a single page, folded twice, with a drawing of the orchard where Mara had spent her childhood summers.
+
+At the bottom, in handwriting she recognized but could not place, were six words: Come before the trees lose their leaves.
+
+She called her brother that evening. He told her the orchard had been cut down years ago. Then he went silent, as though there were something else he had meant to say.
+
+## The road back
+
+By morning, Mara had packed a bag. The bus would take her as far as the old village. After that, she would have to walk.
+
+*This is only a fictional sample excerpt for the website preview, not a complete novella or a published work by A. M. Khan.*` },
+  { id:'preview-3',slug:'a-map-of-missing-roads',title:'A Map of Missing Roads',subtitle:'A short story about finding a way home.',excerpt:'A railway station map shows a route that no longer exists, and a stranger insists he must take it.',category:'Short Stories',published_at:'2026-08-22T12:00:00Z',cover_image:null,body:`The map behind the station glass was older than the building itself. Its edges had faded to the colour of tea, and the red line marking the northern route disappeared into a patch of white.
+
+Nabil leaned closer. The line ended at a town he had never heard of, though he was certain he had seen its name before.
+
+A woman in a green coat stopped beside him. “That train leaves at half past six,” she said.
+
+“There is no train,” he answered.
+
+The woman checked the clock, then looked at him with something like pity.
+
+*This is a fictional sample for the website preview, not a published work by A. M. Khan.*` }
 ];
 
 const main = document.getElementById('main-content');
@@ -39,13 +69,13 @@ function renderHome(){
  <section class="section site-shell" style="padding-top:0"><div class="section-heading"><div><span class="eyebrow">FRESH FROM THE PAGE</span><h2>Recent writing<span class="wordmark-dot">.</span></h2></div><a href="./?view=stories" class="text-link">Browse library ↗</a></div>${posts.length > 1 ? `<div class="card-grid">${posts.slice(1,4).map((p,i)=>card(p,i+1)).join('')}</div>` : posts.length ? `<div class="section-intro">More stories are on their way.</div>` : empty()}</section>`;
 }
 function renderLibrary(){
- updateNavigation('stories');setDescription(`Browse stories and reflections by ${SITE.name}.`);
- const cats=['All stories',...new Set(posts.map(p=>p.category||'Story'))];
- main.innerHTML=`<div class="site-shell"><div class="page-heading"><span class="eyebrow">THE STORY COLLECTION</span><h1>Words worth <em style="color:var(--accent)">sharing.</em></h1><p>Thoughts, moments, and stories collected along the way. Take your time. Stay awhile.</p>${previewNote()}</div><section class="library-section"><div class="filter-bar"><div class="filter-chips" id="filter-chips">${cats.map((cat,i)=>`<button type="button" class="chip ${i===0?'active':''}" data-category="${esc(cat)}">${esc(cat)}</button>`).join('')}</div><label><span class="hidden">Search stories</span><input id="story-search" class="search-input" type="search" placeholder="Search stories..." aria-label="Search stories"></label></div><p class="library-count" id="library-count"></p><div class="card-grid" id="story-grid"></div></section></div>`;
- const grid=document.getElementById('story-grid'); const count=document.getElementById('library-count');let category='All stories';let search='';
- const refresh=()=>{const filtered=posts.filter(p=>(category==='All stories'||(p.category||'Story')===category)&&(`${p.title} ${p.excerpt||''} ${p.category||''}`.toLowerCase().includes(search)));grid.innerHTML=filtered.length?filtered.map((p,i)=>card(p,i)).join(''):empty('No stories match this search. Try a different word or category.');count.textContent=`${filtered.length} ${filtered.length===1?'story':'stories'}`;};
+ updateNavigation('stories');setDescription(`Browse short stories and novellas by ${SITE.name}.`);
+ const cats=STORY_CATEGORIES;
+ main.innerHTML=`<div class="site-shell"><div class="page-heading"><span class="eyebrow">THE STORY COLLECTION</span><h1>Words worth <em style="color:var(--accent)">sharing.</em></h1><p>Explore short stories and novellas. Find your next read.</p>${previewNote()}</div><section class="library-section"><div class="filter-bar"><div class="filter-chips" id="filter-chips">${cats.map((cat,i)=>`<button type="button" class="chip ${i===0?'active':''}" data-category="${esc(cat)}" aria-pressed="${i===0?'true':'false'}">${esc(cat)}</button>`).join('')}</div><label><span class="hidden">Search stories</span><input id="story-search" class="search-input" type="search" placeholder="Search stories..." aria-label="Search stories"></label></div><p class="library-count" id="library-count"></p><div class="card-grid" id="story-grid"></div></section></div>`;
+ const grid=document.getElementById('story-grid'); const count=document.getElementById('library-count');let category='Short Stories';let search='';
+ const refresh=()=>{const filtered=posts.filter(p=>p.category===category&&(`${p.title} ${p.excerpt||''} ${p.category||''}`.toLowerCase().includes(search)));grid.innerHTML=filtered.length?filtered.map((p,i)=>card(p,i)).join(''):empty('No stories match this search. Try a different word or category.');count.textContent=`${filtered.length} ${filtered.length===1?'story':'stories'}`;};
  document.getElementById('story-search').addEventListener('input',e=>{search=e.target.value.toLowerCase().trim();refresh();});
- document.getElementById('filter-chips').addEventListener('click',e=>{const button=e.target.closest('[data-category]');if(!button)return;category=button.dataset.category;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===button));refresh();});
+ document.getElementById('filter-chips').addEventListener('click',e=>{const button=e.target.closest('[data-category]');if(!button)return;category=button.dataset.category;document.querySelectorAll('.chip').forEach(c=>{c.classList.toggle('active',c===button);c.setAttribute('aria-pressed',String(c===button));});refresh();});
  refresh();
 }
 async function renderStory(post){
@@ -97,7 +127,7 @@ async function renderEngagement(post){
 async function initialize(){
  fillBrand(SITE);
  try{
-  if(isConfigured){supabase=await getSupabase();const [{data,error},{data:userData}]=await Promise.all([supabase.from('stories').select('id,slug,title,subtitle,excerpt,body,category,cover_image,published_at,created_at').eq('published',true).order('published_at',{ascending:false}),supabase.auth.getUser()]);if(error)throw error;posts=data||[];currentUser=userData?.user||null;}
+  if(isConfigured){supabase=await getSupabase();const [{data,error},{data:userData}]=await Promise.all([supabase.from('stories').select('id,slug,title,subtitle,excerpt,body,category,cover_image,published_at,created_at').eq('published',true).order('published_at',{ascending:false}),supabase.auth.getUser()]);if(error)throw error;posts=(data||[]).filter(p=>STORY_CATEGORIES.includes(p.category));currentUser=userData?.user||null;}
   else{posts=PREVIEW_STORIES;}
   const params=new URLSearchParams(location.search);
   const slug=params.get('story');const view=params.get('view');
